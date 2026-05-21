@@ -24,7 +24,7 @@ A FastAPI application that enables Slalom consultants to register their capabili
 2. Run the application:
 
    ```
-   python app.py
+   uvicorn app:app --reload
    ```
 
 3. Open your browser and go to:
@@ -61,7 +61,31 @@ The application uses a consulting-focused data model:
    - Certifications
    - Availability
 
-All data is currently stored in memory for this learning exercise. In a production environment, this would be backed by a robust database system.
+## Persistent Storage
+
+The API now uses a SQLite database for persistent capability and registration data.
+
+- Default database path: `src/data/capabilities.db`
+- Data is seeded automatically on first run
+- Existing endpoint response shape remains the same
+
+### Configuration
+
+Use `CAPABILITIES_DB_PATH` to configure where the database file is stored.
+
+Examples:
+
+Local development:
+
+```
+CAPABILITIES_DB_PATH=./src/data/capabilities.db uvicorn app:app --reload
+```
+
+Cloud/container environment:
+
+```
+CAPABILITIES_DB_PATH=/var/lib/slalom/capabilities.db uvicorn app:app --host 0.0.0.0 --port 8000
+```
 
 ## Future Enhancements
 
